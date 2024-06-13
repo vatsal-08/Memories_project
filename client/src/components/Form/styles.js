@@ -1,7 +1,7 @@
 import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
-  spacing: [0, 2, 4, 6],
+  spacing: [0, 5, 10, 15],
 });
 const styles = {
   root: {
@@ -22,7 +22,7 @@ const styles = {
     margin: "10px 0",
   },
   buttonSubmit: {
-    marginBottom: 0.5,
+    marginBottom: 1,
   },
 };
 export default styles;
