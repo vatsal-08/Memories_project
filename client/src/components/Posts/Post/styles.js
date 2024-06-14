@@ -1,17 +1,6 @@
 import { createTheme } from "@mui/material/styles";
 
-const theme = createTheme({
-  spacing: [0, 2, 4, 6],
-});
 const styles = {
-  root: {
-    "& .MuiTextField-root": {
-      margin: theme.spacing(1),
-    },
-  },
-  paper: {
-    padding: theme.spacing(2),
-  },
   media: {
     height: 0,
     paddingTop: "56.25%",
