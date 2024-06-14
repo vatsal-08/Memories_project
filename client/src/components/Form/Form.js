@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Paper,
   TextField,
@@ -7,10 +7,10 @@ import {
   FormControl,
 } from "@mui/material";
 import FileBase from "react-file-base64";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./styles.js";
-import { createPost } from "../../actions/posts.js";
-const Form = () => {
+import { createPost, updatePost } from "../../actions/posts.js";
+const Form = ({ currentId, setCurrentId }) => {
   const [postData, setPostData] = useState({
     creator: "",
     title: "",
@@ -18,10 +18,22 @@ const Form = () => {
     tags: "",
     selectedFile: "",
   });
+  const post = useSelector((state) =>
+    currentId ? state.posts.find((p) => p._id === currentId) : null
+  );
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (post) setPostData(post);
+  }, [post]);
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createPost(postData));
+    console.log(currentId);
+    if (currentId) {
+      dispatch(updatePost(currentId, postData));
+    } else {
+      dispatch(createPost(postData));
+    }
   };
   const clear = () => {};
   return (
@@ -31,10 +43,9 @@ const Form = () => {
           autoComplete="off"
           noValidate
           sx={{ ...styles.root, ...styles.form }}
-          onSubmit={handleSubmit}
         >
           <Typography variant="h6" align="center">
-            Creating a memory
+            {currentId ? "Editing" : "Creating"} a Memory
           </Typography>
           <TextField
             name="creator"
@@ -90,6 +101,7 @@ const Form = () => {
             size="large"
             type="submit"
             fullWidth
+            onClick={handleSubmit}
           >
             Submit
           </Button>
