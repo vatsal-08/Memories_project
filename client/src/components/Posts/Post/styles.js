@@ -1,5 +1,3 @@
-import { createTheme } from "@mui/material/styles";
-
 const styles = {
   media: {
     height: 0,
