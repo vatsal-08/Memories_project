@@ -2,6 +2,7 @@ import { Container } from "@mui/material";
 import Navbar from "./components/Navbar/Navbar.js";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./components/Home/Home.js";
+import Auth from "./components/Auth/Auth.js";
 const App = () => {
   return (
     <BrowserRouter>
@@ -9,7 +10,7 @@ const App = () => {
         <Navbar />
         <Routes>
           <Route path="/" exact Component={Home}></Route>
-          <Route path="/" exact Component={Home}></Route>
+          <Route path="/AUTH" exact Component={Auth}></Route>
         </Routes>
         <Home />
       </Container>
