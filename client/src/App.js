@@ -9,8 +9,8 @@ const App = () => {
       <Container maxWidth="lg">
         <Navbar />
         <Routes>
-          <Route path="/" exact Component={Home}></Route>
-          <Route path="/AUTH" exact Component={Auth}></Route>
+          <Route path="/" exact Component={Home} />
+          <Route path="/AUTH" exact Component={Auth} />
         </Routes>
         <Home />
       </Container>
