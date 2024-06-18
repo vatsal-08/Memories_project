@@ -9,8 +9,14 @@ import {
 } from "@mui/material";
 import styles from "./styles.js";
 const Auth = () => {
-  const state = null;
-  return <div>AUTH</div>;
+  
+  return (<Container component="main" maxWidth="xs">
+    <Paper style={styles.paper} elevation={3}>
+      <Avatar style={styles.avatar}>
+        <LockOutlinedIcon/>
+      </Avatar>
+    </Paper>
+  </Container>)
 };
 
 export default Auth;
