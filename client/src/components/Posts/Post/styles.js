@@ -37,13 +37,13 @@ const styles = {
   details: {
     display: "flex",
     justifyContent: "space-between",
-    margin: "20px",
+    margin: "-150px",
   },
   title: {
     padding: "0 16px",
   },
   cardActions: {
-    padding: "0 16px 8px 16px",
+    padding: "0 16px 50px 16px",
     display: "flex",
     justifyContent: "space-between",
   },
