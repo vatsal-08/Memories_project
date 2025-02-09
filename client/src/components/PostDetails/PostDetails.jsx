@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Paper, Typography, CircularProgress, Divider } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import styles from "./styles.js"
 import { getPost, getPostsBySearch } from '../../actions/posts';
 import CommentSection from './CommentSection.jsx';
@@ -20,13 +20,14 @@ const PostDetails = () => {
     useEffect(() => {
         dispatch(getPost(id))
     }, [id])
-    if (!post)
+    if (!post) {
         return null;
+    }
     if (isLoading)
         return (<Paper elevation={6} sx={styles.loadingPaper}>
             <CircularProgress size="7em" />
         </Paper>);
-    const recommendedPosts = posts.filter(({ _id }) => _id !== post._id);
+    const recommendedPosts = posts?.filter(({ _id }) => _id !== post._id) || [];
     const openPost = (id) => navigate(`/posts/${id}`)
     return (
         <Paper style={{ padding: '20px', borderRadius: '15px' }} elevation={6}>
@@ -35,7 +36,10 @@ const PostDetails = () => {
                     <Typography variant="h3" component="h2">{post.title}</Typography>
                     <Typography gutterBottom variant="h6" color="textSecondary" component="h2">{post.tags && post.tags.map((tag) => `#${tag} `)}</Typography>
                     <Typography gutterBottom variant="body1" component="p">{post.message}</Typography>
-                    <Typography variant="h6">Created by: {post.name}</Typography>
+                    <Typography variant="h6">Created by:
+                        <Link to={`/creators/${post.name}`} style={{ textDecoration: 'none', color: '#3f51b5' }}>
+                            {` ${post.name}`}
+                        </Link></Typography>
                     <Typography variant="body1">{moment(post.createdAt).fromNow()}</Typography>
                     <Divider style={{ margin: '20px 0' }} />
                     <Typography variant="body1"><strong>Realtime Chat - coming soon!</strong></Typography>

@@ -9,6 +9,7 @@ import {
   END_LOADING,
   FETCH_POST,
   COMMENT,
+  FETCH_BY_CREATOR,
 } from "../constants/actionTypes";
 export const getPost = (id) => async (dispatch) => {
   try {
@@ -30,6 +31,22 @@ export const getPosts = (page) => async (dispatch) => {
     console.log(error.message);
   }
 };
+
+export const getPostsByCreator = (name) => async (dispatch) => {
+  try {
+    dispatch({ type: START_LOADING });
+    const {
+      data: { data },
+    } = await api.fetchPostsByCreator(name);
+
+    dispatch({ type: FETCH_BY_CREATOR, payload: { data } });
+    dispatch({ type: END_LOADING });
+  } catch (error) {
+    console.log(error);
+    dispatch({ type: END_LOADING });
+  }
+};
+
 export const getPostsBySearch = (searchQuery) => async (dispatch) => {
   try {
     dispatch({ type: START_LOADING });
@@ -40,6 +57,7 @@ export const getPostsBySearch = (searchQuery) => async (dispatch) => {
     dispatch({ type: END_LOADING });
   } catch (error) {
     console.log(error);
+    dispatch({ type: END_LOADING });
   }
 };
 export const createPost = (post, navigate) => async (dispatch) => {
