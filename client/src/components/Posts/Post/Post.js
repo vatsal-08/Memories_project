@@ -8,7 +8,6 @@ import {
   Button,
   Typography,
   ButtonBase,
-  CardHeader,
 } from "@mui/material";
 import moment from "moment";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
@@ -23,12 +22,13 @@ const Post = ({ post, setCurrentId }) => {
   const user = JSON.parse(localStorage.getItem("profile"));
   const navigate = useNavigate();
   const [likes, setLikes] = useState(post?.likes);
+  const [hoveredTag, setHoveredTag] = useState(null);
   const userId = user?.result?.googleId || user?.result?._id;
   const hasLikedPost = post.likes.find((like) => like === userId);
   const handleLike = async () => {
     dispatch(likePost(post._id));
     if (hasLikedPost) {
-      setLikes(post.likes.filter((id) => id !== userId));
+      setLikes((post.likes || []).filter((id) => id !== userId));
     } else {
       setLikes([...post.likes, userId]);
     }
@@ -65,14 +65,16 @@ const Post = ({ post, setCurrentId }) => {
   };
   return (
     <Card sx={styles.card} raised elevation={6}>
-      <ButtonBase sx={styles.cardActions} onClick={openPost}>
+      <ButtonBase sx={styles.cardAction} onClick={openPost}>
         <CardMedia
-          className={styles.media}
+          sx={styles.media}
+          style={{
+            backgroundImage: `url(${
+              post.selectedFile ||
+              "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"
+            })`,
+          }}
           component="img"
-          image={
-            post.selectedFile ||
-            "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"
-          }
           title={post.title}
         />
         <div style={styles.overlay}>
@@ -95,8 +97,31 @@ const Post = ({ post, setCurrentId }) => {
           </div>
         )}
         <div style={styles.details}>
-          <Typography variant="body2" color="textSecondary">
-            {post.tags?.map((tag) => `#${tag} `)}
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            style={{ whiteSpace: "nowrap", textAlign: "center" }}
+          >
+            {post.tags?.map((tag, index) => (
+              <span
+                key={index}
+                onClick={(e) => {
+                  e.preventDefault();
+                }}
+                style={{
+                  ...styles.tagLink,
+                  display: "inline",
+                  marginRight: "8px",
+                  textDecoration: hoveredTag === index ? "underline" : "none",
+                  color: hoveredTag === index ? "#0000FF" : "inherit",
+                }}
+                pointerEvents="none"
+                onMouseEnter={() => setHoveredTag(index)}
+                onMouseLeave={() => setHoveredTag(null)}
+              >
+                #{tag}
+              </span>
+            ))}
           </Typography>
         </div>
         <Typography
