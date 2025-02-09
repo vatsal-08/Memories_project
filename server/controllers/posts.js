@@ -44,6 +44,17 @@ export const getPostsBySearch = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
+export const getPostsByCreator = async (req, res) => {
+  const { name } = req.query;
+  console.log(name);
+
+  try {
+    const posts = await PostMessage.find({ name });
+    res.json({ data: posts });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
 export const createPost = async (req, res) => {
   const post = req.body;
   const newPost = new PostMessage({
@@ -109,7 +120,7 @@ export const likePost = async (req, res) => {
     if (index === -1) {
       post.likes.push(req.userId);
     } else {
-      post.likes = post.likes.filter((id) => id !== String(req.userId));
+      post.likes = (post.likes || []).filter((id) => id !== String(req.userId));
     }
     if (!post) {
       return res.status(404).send(`Post not found with id: ${id}`);
