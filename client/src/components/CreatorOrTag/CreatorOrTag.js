@@ -12,8 +12,6 @@ const CreatorOrTag = () => {
   const { posts, isLoading } = useSelector((state) => state.posts);
 
   const location = useLocation();
-  console.log(name);
-  console.log(location);
 
   useEffect(() => {
     if (location.pathname.startsWith("/tags")) {

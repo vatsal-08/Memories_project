@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux';
 
 import { commentPost } from "../../actions/posts"
 const CommentSection = ({ post }) => {
-    // console.log("Post", post);
     const [comments, setComments] = useState(post?.comments)
     const [comment, setComment] = useState('')
     const user = JSON.parse(localStorage.getItem('profile'))
