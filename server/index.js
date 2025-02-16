@@ -14,7 +14,9 @@ app.use("/posts", postRoutes);
 app.use("/user", userRoutes);
 
 const CONNECTION_URL = process.env.CONNECTION_URL;
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
+console.log("CONNECTION_URL", CONNECTION_URL);
+console.log("PORT", PORT);
 
 mongoose
   .connect(CONNECTION_URL)
@@ -30,6 +32,6 @@ mongoose
         `Server running on port ${PORT} at ${hours}:${minutes}:${seconds}`
       )
     );
-    console.log("Opening link: http://localhost:5000/posts");
+    console.log(`Opening link: http://localhost:${PORT}/posts`);
   })
   .catch((error) => console.log(error.message));
