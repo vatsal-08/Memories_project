@@ -15,8 +15,6 @@ app.use("/user", userRoutes);
 
 const CONNECTION_URL = process.env.CONNECTION_URL;
 const PORT = process.env.PORT;
-console.log("CONNECTION_URL", CONNECTION_URL);
-console.log("PORT", PORT);
 
 mongoose
   .connect(CONNECTION_URL)
