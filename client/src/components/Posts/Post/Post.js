@@ -67,21 +67,31 @@ const Post = ({ post, setCurrentId }) => {
     <Card sx={styles.card} raised elevation={6}>
       <ButtonBase sx={styles.cardAction} onClick={openPost}>
         <CardMedia
-          sx={styles.media}
+          sx={{
+            ...styles.media,
+            transform: hoveredTag === "image" ? "scale(1.1)" : "scale(1)",
+            transition: "transform 0.3s ease-in-out",
+          }}
           style={{
             backgroundImage: `url(${
               post.selectedFile ||
               "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"
             })`,
           }}
+          onMouseEnter={() => setHoveredTag("image")}
+          onMouseLeave={() => setHoveredTag(null)}
           component="img"
           title={post.title}
         />
-        <div style={styles.overlay}>
-          <Typography variant="h6">{post.name}</Typography>
-          <Typography variant="body2">
-            {moment(post.createdAt).fromNow()}
-          </Typography>
+        <div style={styles.overlay} className="basicDetails">
+          {hoveredTag !== "image" && (
+            <>
+              <Typography variant="h6">{post.name}</Typography>
+              <Typography variant="body2">
+                {moment(post.createdAt).fromNow()}
+              </Typography>
+            </>
+          )}
         </div>
         {post?.creator === user?.result?._id && (
           <div style={styles.overlay2}>
@@ -102,11 +112,11 @@ const Post = ({ post, setCurrentId }) => {
             color="textSecondary"
             style={{ whiteSpace: "nowrap", textAlign: "center" }}
           >
-            {post.tags?.map((tag, index) => (
+            {post?.tags?.map((tag, index) => (
               <span
                 key={index}
                 onClick={(e) => {
-                  e.preventDefault();
+                  e.stopPropagation();
                 }}
                 style={{
                   ...styles.tagLink,
@@ -115,7 +125,6 @@ const Post = ({ post, setCurrentId }) => {
                   textDecoration: hoveredTag === index ? "underline" : "none",
                   color: hoveredTag === index ? "#0000FF" : "inherit",
                 }}
-                pointerEvents="none"
                 onMouseEnter={() => setHoveredTag(index)}
                 onMouseLeave={() => setHoveredTag(null)}
               >
