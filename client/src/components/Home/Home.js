@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   Grow,
   Grid,
@@ -25,15 +25,18 @@ const Home = () => {
   const dispatch = useDispatch();
   const query = useQuery();
   const navigate = useNavigate();
-  const page = query.get("page") || 1;
+  const page = parseInt(query.get("page")) || 1;
   const searchQuery = query.get("searchQuery");
   const [search, setSearch] = useState("");
   const [tags, setTags] = useState([]);
-  const searchPost = () => {
+  const searchPost = useCallback(() => {
     if (search.trim() || tags.length !== 0) {
-      dispatch(getPostsBySearch({ search, tags: tags.join(",") }));
+      const cleanedTags = tags.map((tag) => tag.replace(/^#/, ""));
+      dispatch(getPostsBySearch({ search, tags: cleanedTags.join(",") }));
       navigate(
-        `/posts/search?searchQuery=${search || "none"}&tags=${tags.join(",")}`
+        `/posts/search?searchQuery=${search || "none"}&tags=${cleanedTags.join(
+          ","
+        )}`
       );
     } else {
       setSearch("");
@@ -41,15 +44,19 @@ const Home = () => {
       dispatch(getPosts(1));
       navigate("/posts");
     }
-  };
-  const handleKeyPress = (e) => {
-    if (e.keyCode === 13) {
-      searchPost();
-    }
-  };
+  }, [search, tags, dispatch, navigate]);
+  const handleKeyPress = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        searchPost();
+      }
+    },
+    [searchPost]
+  );
+  const location = useLocation();
   useEffect(() => {
     dispatch(getPosts(page));
-  }, [page, dispatch]);
+  }, [page, dispatch, location]);
 
   return (
     <Grow in>
