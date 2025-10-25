@@ -49,7 +49,12 @@ const Navbar = () => {
             >
               {user.result.name.charAt(0)}
             </Avatar>
-            <Typography sx={styles.userName} variant="h6">
+            <Typography
+              sx={styles.userName}
+              variant="h6"
+              onClick={() => navigate("/creators/" + user.result.name)}
+              onMouseEnter={(e) => (e.target.style.cursor = "pointer")}
+            >
               {user.result.name}
             </Typography>
             <Button

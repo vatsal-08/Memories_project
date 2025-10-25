@@ -6,9 +6,10 @@ const userSchema = mongoose.Schema({
   password: { type: String, required: true },
   id: { type: String },
   isAdmin: { type: Boolean, default: false },
-  image: { type: String },
+  image: { type: String, default: "" },
   dob: { type: Date, required: true },
   joinedAt: { type: Date, default: new Date() },
+  description: { type: String, default: "" },
 });
 
 export default mongoose.model("User", userSchema);

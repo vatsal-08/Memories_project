@@ -24,8 +24,17 @@ const CreatorOrTag = () => {
   if (!posts?.length && !isLoading) return "No posts";
 
   return (
-    <div>
-      <Typography variant="h2">{name}</Typography>
+    <>
+      {/* <Typography variant="h1" style={{ display: "inline" }}>
+        <img src="#" alt="name" />
+      </Typography> */}
+      <Typography variant="h6" style={{ display: "inline", marginLeft: "8px" }}>
+        {name}
+      </Typography>
+      <Typography variant="h6" style={{ display: "inline", marginLeft: "8px" }}>
+        {posts?.length} post{posts?.length > 1 && "s"}
+      </Typography>
+
       <Divider style={{ margin: "20px 0 50px 0" }} />
       {isLoading ? (
         <CircularProgress />
@@ -38,7 +47,7 @@ const CreatorOrTag = () => {
           ))}
         </Grid>
       )}
-    </div>
+    </>
   );
 };
 
